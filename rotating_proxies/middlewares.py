@@ -148,11 +148,11 @@ class RotatingProxyMiddleware(object):
                     logger.error("No proxies available even after a reset.")
                     raise CloseSpider("no_proxies_after_reset")
 
-        username, password = _parse_proxy(proxy)[1:3]
+        username, password, proxy_url = _parse_proxy(proxy)[1:4]
         if username and password:
             proxy_auth = basic_auth_header(username, password)
             request.headers['Proxy-Authorization'] = proxy_auth
-        request.meta['proxy'] = proxy
+        request.meta['proxy'] = proxy_url
         request.meta['download_slot'] = self.get_proxy_slot(proxy)
         request.meta['_rotating_proxy'] = True
 
